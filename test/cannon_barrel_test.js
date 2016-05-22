@@ -7,24 +7,25 @@ const CannonBarrel = require('../lib/cannon_barrel');
 describe('CannonBarrel', function() {
   context('with assigned and default attributes', function() {
     var cannonBase = new CannonBase({x: 10, y:10});
+    var cannonBarrel = new CannonBarrel(cannonBase);
 
     it('should assign an x coordinate', function() {
-      assert.equal(cannonBase.x, 10);
+      assert.equal(cannonBarrel.x, 27);
     });
 
     it('should assign an y coordinate', function() {
-      assert.equal(cannonBase.y, 10);
+      assert.equal(cannonBarrel.y, 27);
     });
 
     it('should assign an width coordinate', function() {
-      assert.equal(cannonBase.width, 40);
+      assert.equal(cannonBarrel.width, 6);
     });
 
     it('should assign an height coordinate', function() {
-      assert.equal(cannonBase.height, 40);
+      assert.equal(cannonBarrel.height, 50);
     });
   });
-  
+
   context('can move up and down', function() {
     var cannonBase = new CannonBase({x: 10, y:10});
     var cannonBarrel = new CannonBarrel(cannonBase);
