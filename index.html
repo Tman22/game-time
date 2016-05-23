@@ -11,8 +11,9 @@
 <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
 <script>
   // Initialize Firebase
+  var Env = require('./environment_variable.js');
   var config = {
-    apiKey: "AIzaSyCm2il0cnlRtdSiFHVQpUaPN6aLq_TtmdU",
+    apiKey: Env.apiKey,
     authDomain: "project-6479990485436298214.firebaseapp.com",
     databaseURL: "https://project-6479990485436298214.firebaseio.com",
     storageBucket: "project-6479990485436298214.appspot.com",
