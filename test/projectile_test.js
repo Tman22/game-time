@@ -1,18 +1,23 @@
 var chai = require('chai');
 var assert = chai.assert;
 var Projectile = require('../lib/projectile');
+var Zeus = require('../lib/zeus');
 
 
 describe('Projectile', function() {
   context('with assigned and default attributes', function() {
-    it('collides with target', function() {
-
+    it('sets position', function() {
       var projectile = new Projectile({});
-      var z = {cannonBarrel: {}};
-      // get coordinates of a ball and target
-        // where ball is underneath and to the right of target
-        // such that a collision should be triggered
-        // an assert that it is
-    })
+      var testCannon = {x: 10, y: 10, anglex: 20, angley: 20};
+      var toggle =  100;
+      var zeus = new Zeus();
+      projectile.setPosition(zeus, zeus.setCoordinates(testCannon, toggle));
+
+      assert.equal(projectile.x, 15);
+      assert.equal(projectile.y, 15);
+      assert.equal(projectile.xVel, 5);
+      assert.equal(projectile.yVel, 5);
+      assert.equal(projectile.g, 3.5);
+    });
   });
 });
