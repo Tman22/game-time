@@ -15,9 +15,9 @@ describe('Projectile', function() {
 
       assert.equal(projectile.x, 15);
       assert.equal(projectile.y, 15);
-      assert.equal(projectile.xVel, 5);
-      assert.equal(projectile.yVel, 5);
-      assert.equal(projectile.g, 3.5);
+      assert.equal(projectile.xVel, 10);
+      assert.equal(projectile.yVel, 10);
+      assert.equal(projectile.g, 0.9);
     });
   });
 });
