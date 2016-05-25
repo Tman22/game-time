@@ -55,8 +55,12 @@
 	var Zeus = new LittleZeus(context);
 	var Game = new GameTime(Zeus);
 
+	var img = new Image();
+	img.src = './images/sky.jpg';
+
 	requestAnimationFrame(function gameLoop() {
 	  context.clearRect(0, 0, canvas.width, canvas.height);
+	  context.drawImage(img, 0, 0);
 	  if (StartGame.draw()) {
 	    Game.run(Zeus);
 	  }
@@ -304,8 +308,7 @@
 	  gradient.addColorStop("0.5", "blue");
 	  gradient.addColorStop("1.0", "red");
 	  context.fillStyle = gradient;
-	  var score = Zeus.score();
-	  var countAndLevel = score + " | Level: " + Zeus.currentLevel;
+	  var countAndLevel = Zeus.score() + " | Level: " + Zeus.currentLevel;
 	  context.fillText(countAndLevel, 50, 50);
 	  var img = new Image();
 	  img.src = 'images/power_bar.png';
