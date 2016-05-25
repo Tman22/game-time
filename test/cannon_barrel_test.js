@@ -1,8 +1,8 @@
-const chai = require('chai');
-const assert = chai.assert;
+var chai = require('chai');
+var assert = chai.assert;
 
-const CannonBase = require('../lib/cannon_base');
-const CannonBarrel = require('../lib/cannon_barrel');
+var CannonBase = require('../lib/cannon_base');
+var CannonBarrel = require('../lib/cannon_barrel');
 
 describe('CannonBarrel', function() {
   context('with assigned and default attributes', function() {

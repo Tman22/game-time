@@ -1,7 +1,7 @@
-const chai = require('chai');
-const assert = chai.assert;
+var chai = require('chai');
+var assert = chai.assert;
 
-const Tower = require('../lib/tower');
+var Tower = require('../lib/tower');
 
 describe('Tower', function() {
   context('with assigned and default attributes', function() {
