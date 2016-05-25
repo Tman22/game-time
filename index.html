@@ -1,24 +1,12 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <link rel='stylesheet' href='/css/application.css'>  <meta charset="utf-8">
-  <title>Game Time</title>
-</head>
-<body>
-  <canvas id='game' tabindex='1' width='800' height='600'></canvas>
-  <script src="main.bundle.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var Env = require('./environment_variable.js');
-  var config = {
-    apiKey: Env.apiKey,
-    authDomain: "project-6479990485436298214.firebaseapp.com",
-    databaseURL: "https://project-6479990485436298214.firebaseio.com",
-    storageBucket: "project-6479990485436298214.appspot.com",
-  };
-  firebase.initializeApp(config);
-</script>
-</body>
+  <head>
+    <link rel='stylesheet' href='/css/application.css'>  <meta charset="utf-8">
+    <title>Game Time</title>
+  </head>
+  <body>
+    <canvas id='game' tabindex='1' width='800' height='600'></canvas>
+    <script src="main.bundle.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+  </body>
 </html>
