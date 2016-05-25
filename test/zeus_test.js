@@ -29,8 +29,8 @@ describe('Zeus', function() {
     });
 
     it('coords will change when barrel is changed', function() {
-      Zeus.cannonBarrel.x = 20
-      Zeus.cannonBarrel.y = 20
+      Zeus.cannonBarrel.x = 20;
+      Zeus.cannonBarrel.y = 20;
 
       var coords = Zeus.setCoordinates();
       assert.equal(coords.x, 20);
@@ -41,10 +41,15 @@ describe('Zeus', function() {
     });
   });
 
-  context('projectile collision', function() {
+  context('projectile collision and score', function() {
     it('projectile collides with target and both pop()', function() {
+      assert.equal(Zeus.projectiles.length, 1);
+      assert.equal(Zeus.targetsHitScore, 0);
+
       Zeus.projectileCollidesWithTarget();
 
+      assert.equal(Zeus.targetsHitScore, 10);
+      assert.equal(Zeus.shotCount, 0);
       assert.equal(Zeus.projectiles.length, 0);
       assert.equal(Zeus.targets.length, 1);
       assert.equal(Zeus.toggle.pause, false);
@@ -58,6 +63,8 @@ describe('Zeus', function() {
 
       Zeus.projectileCollidesWithTower();
 
+      assert.equal(Zeus.targetsHitScore, 10);
+      assert.equal(Zeus.shotCount, 1);
       assert.equal(Zeus.projectiles.length, 0);
       assert.equal(Zeus.towers.length, 2);
       assert.equal(Zeus.toggle.pause, false);
@@ -68,8 +75,10 @@ describe('Zeus', function() {
       Zeus.projectiles.push(ball);
       Zeus.toggle.pause = true;
 
-      Zeus.projectileCollidesWithTower();
+      Zeus.projectileFlysOutOfCanvas();
 
+      assert.equal(Zeus.targetsHitScore, 10);
+      assert.equal(Zeus.shotCount, 2);
       assert.equal(Zeus.projectiles.length, 0);
       assert.equal(Zeus.toggle.pause, false);
     });
@@ -79,20 +88,21 @@ describe('Zeus', function() {
       Zeus.projectiles.push(ball);
       Zeus.toggle.pause = true;
 
-      Zeus.projectileCollidesWithTower();
+      Zeus.projectileFlysOutOfCanvas();
 
+      assert.equal(Zeus.shotCount, 2);
       assert.equal(Zeus.projectiles.length, 1);
       assert.equal(Zeus.toggle.pause, true);
     });
 
     it('projectile is greater then canvas.x', function() {
       ball.y = 6;
-      ball.x = 801
-      Zeus.projectiles.push(ball);
+      ball.x = 801;
       Zeus.toggle.pause = true;
 
-      Zeus.projectileCollidesWithTower();
+      Zeus.projectileFlysOutOfCanvas();
 
+      assert.equal(Zeus.shotCount, 3);
       assert.equal(Zeus.projectiles.length, 0);
       assert.equal(Zeus.toggle.pause, false);
     });
@@ -102,8 +112,9 @@ describe('Zeus', function() {
       Zeus.projectiles.push(ball);
       Zeus.toggle.pause = true;
 
-      Zeus.projectileCollidesWithTower();
+      Zeus.projectileFlysOutOfCanvas();
 
+      assert.equal(Zeus.shotCount, 4);
       assert.equal(Zeus.projectiles.length, 0);
       assert.equal(Zeus.toggle.pause, false);
     });
@@ -113,6 +124,7 @@ describe('Zeus', function() {
 
       Zeus.projectileCollidesWithTower();
 
+      assert.equal(Zeus.shotCount, 4);
       assert.equal(Zeus.projectiles.length, 0);
       assert.equal(Zeus.toggle.pause, true);
     });
@@ -122,10 +134,27 @@ describe('Zeus', function() {
 
       Zeus.projectileCollidesWithTarget();
 
+      assert.equal(Zeus.shotCount, 4);
       assert.equal(Zeus.projectiles.length, 0);
       assert.equal(Zeus.toggle.pause, true);
     });
 
-  });
+    it('projectiles is an [] - ball is out of bounds', function() {
+      Zeus.toggle.pause = true;
 
+      Zeus.projectileFlysOutOfCanvas();
+
+      assert.equal(Zeus.shotCount, 4);
+      assert.equal(Zeus.projectiles.length, 0);
+      assert.equal(Zeus.toggle.pause, true);
+    });
+
+    it('Score should be 6', function() {
+
+      assert.equal(Zeus.shotCount, 4);
+      assert.equal(Zeus.targetsHitScore, 10);
+
+      assert.equal(Zeus.score(), 6);
+    });
+  });
 });
