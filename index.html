@@ -5,7 +5,27 @@
     <title>Game Time</title>
   </head>
   <body>
-    <canvas id='game' tabindex='1' width='800' height='600'></canvas>
+    <div class="content">
+
+    <div class='main'>
+      <h3>Instructions:</h3>
+      <ul>
+        <li><p>Move Cannon Up: <strong>Up Arrow</strong> </p></li>
+        <li><p>Move Cannon Down: <strong>Down Arrow</strong></p></li>
+        <li><p>Fire Cannon: <strong>Space Bar</strong> </p></li>
+        <li><p>Power Bar: Constantly moves until you fire! The <strong>
+                          Top</strong> of the bar has the most power</p></li>
+      </ul>
+      <h3>Score:</h3>
+      <ul>
+        <li><p>Hitting a target gives you <strong>10 Points</strong></p></li>
+        <li><p>For every missed shot you lose <strong>1 Point</strong></p></li>
+      </ul>
+    </div>
+    <div class="canvas">
+      <canvas id='game' tabindex='1' width='800' height='600'></canvas>
+    </div>
+  </div>
     <script src="main.bundle.js"></script>
     <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
   </body>
