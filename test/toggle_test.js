@@ -1,7 +1,7 @@
-const chai = require('chai');
-const assert = chai.assert;
+var chai = require('chai');
+var assert = chai.assert;
 
-const Toggle = require('../lib/toggle');
+var Toggle = require('../lib/toggle');
 
 describe('Toggle', function() {
   context('starting coordinates', function() {
@@ -26,7 +26,7 @@ describe('Toggle', function() {
 
   context('can move up and down', function() {
     var toggle = new Toggle();
-    
+
     it('should start moving down', function() {
       assert.equal(toggle.direction, 'down');
       assert.equal(toggle.y, 10);

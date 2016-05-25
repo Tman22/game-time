@@ -1,7 +1,6 @@
 var chai = require('chai');
 var assert = chai.assert;
 var Projectile = require('../lib/projectile');
-var Zeus = require('../lib/zeus');
 var projectile = new Projectile({});
 
 
@@ -29,17 +28,13 @@ describe('Projectile', function() {
       assert.equal(projectile.g, 0.9);
     });
 
-
     it('should have x and y seperate as g continutes to add to yVel', function() {
-
       projectile.movement();
 
       assert.equal(projectile.x, 21.666666666666664);
       assert.equal(projectile.y, 21.966666666666665);
       assert.equal(projectile.xVel, 10);
       assert.equal(projectile.yVel, 11.8);
-
     });
   });
-
 });
