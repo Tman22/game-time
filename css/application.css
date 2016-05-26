@@ -13,4 +13,11 @@
 
 .content {
   margin:auto;
+  height: 800px;
+  padding:20px;
+}
+
+body {
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
