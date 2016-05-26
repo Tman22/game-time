@@ -50,9 +50,9 @@
 	var context = canvas.getContext('2d');
 	var LittleZeus = __webpack_require__(1);
 	var GameTime = __webpack_require__(4);
-	var Start = __webpack_require__(15);
+	var Start = __webpack_require__(16);
 	var StartGame = new Start(canvas, context);
-	var Zeus = new LittleZeus(context);
+	var Zeus = new LittleZeus(context, canvas);
 	var Game = new GameTime(Zeus);
 
 	var img = new Image();
@@ -90,14 +90,15 @@
 	var Toggle = __webpack_require__(2);
 	var collision = __webpack_require__(3);
 
-	function Zeus(context) {
+	function Zeus(context, canvas) {
 	  this.toggle = new Toggle();
 	  this.projectiles = [];
 	  this.context = context;
+	  this.canvas = canvas;
 	  this.towers = [];
 	  this.targets = [];
 	  this.cannonBarrel = {};
-	  this.currentLevel = 'one';
+	  this.currentLevel = 'One';
 	  this.targetsHitScore = 0;
 	  this.shotCount = 0;
 	}
@@ -257,20 +258,21 @@
 	var levelOne = __webpack_require__(5);
 	var levelTwo = __webpack_require__(12);
 	var levelThree = __webpack_require__(13);
-	var Projectile = __webpack_require__(14);
-
-	var shotCount = 0;
+	var gameOver = __webpack_require__(14);
+	var Projectile = __webpack_require__(15);
 
 	function Game() {}
 
 	Game.prototype.run = function (Zeus) {
 	  drawBackground(Zeus);
-	  if (Zeus.currentLevel === 'one') {
+	  if (Zeus.currentLevel === 'One') {
 	    levelOne(Zeus);
-	  } else if (Zeus.currentLevel === 'two') {
+	  } else if (Zeus.currentLevel === 'Two') {
 	    levelTwo(Zeus);
-	  } else if (Zeus.currentLevel === 'three') {
+	  } else if (Zeus.currentLevel === 'Three') {
 	    levelThree(Zeus);
+	  } else if (Zeus.currentLevel === 'Game Over') {
+	    gameOver(Zeus);
 	  }
 	  Zeus.projectiles.forEach(function (projectile) {
 	    projectile.draw(Zeus.context).movement();
@@ -296,24 +298,16 @@
 	  }
 	};
 
-	function getScore(shotCount) {
-	  shotCount;
-	}
-
 	function drawBackground(Zeus) {
 	  var context = Zeus.context;
-	  var gradient = context.createLinearGradient(0, 0, 50, 15);
 	  context.font = "30px Verdana";
-	  gradient.addColorStop("0", "magenta");
-	  gradient.addColorStop("0.5", "blue");
-	  gradient.addColorStop("1.0", "red");
-	  context.fillStyle = gradient;
+	  context.fillStyle = 'red';
 	  var countAndLevel = Zeus.score() + " | Level: " + Zeus.currentLevel;
 	  context.fillText(countAndLevel, 50, 50);
 	  var img = new Image();
 	  img.src = 'images/power_bar.png';
 	  context.drawImage(img, 10, 10, 10, 200);
-	};
+	}
 
 	module.exports = Game;
 
@@ -337,7 +331,6 @@
 	var target4 = new Target({ x: 100, y: 100 });
 	var towers = createTowers('one');
 	var targets = [target1, target2, target3, target4];
-	// var targets = [target4];
 
 	function levelOne(Zeus) {
 	  cannonBase.draw(Zeus.context);
@@ -360,7 +353,7 @@
 	  if (Zeus.targets.length === 0) {
 	    levelOpener(Zeus.context, 'One');
 	    setTimeout(function () {
-	      Zeus.currentLevel = 'two';
+	      Zeus.currentLevel = 'Two';
 	    }, 1000);
 	  }
 	}
@@ -609,13 +602,9 @@
 	"use strict";
 
 	function levelOpener(context, level) {
-	  var gradient = context.createLinearGradient(0, 0, 800, 0);
-	  gradient.addColorStop("0", "magenta");
-	  gradient.addColorStop("0.5", "blue");
-	  gradient.addColorStop("1.0", "red");
-	  context.fillStyle = gradient;
+	  context.fillStyle = 'red';
 	  var completed = "Completed Level " + level + "!";
-	  context.fillText(completed, 200, 150);
+	  context.fillText(completed, 250, 150);
 	}
 
 	module.exports = levelOpener;
@@ -639,7 +628,6 @@
 	var target3 = new Target({ x: 365, y: 350 });
 	var towers = createTowers('two');
 	var targets = [target1, target2, target3];
-	// var targets = [target2];
 
 	function levelTwo(Zeus) {
 	  cannonBase.draw(Zeus.context);
@@ -661,7 +649,7 @@
 	  if (Zeus.targets.length === 0) {
 	    levelOpener(Zeus.context, 'Two');
 	    setTimeout(function () {
-	      Zeus.currentLevel = 'three';
+	      Zeus.currentLevel = 'Three';
 	    }, 1000);
 	  }
 	}
@@ -678,6 +666,7 @@
 	var CannonBarrel = __webpack_require__(7);
 	var Target = __webpack_require__(8);
 	var createTowers = __webpack_require__(9);
+	var levelOpener = __webpack_require__(11);
 
 	var cannonBase = new CannonBase({ x: 30, y: 360 });
 	var cannonBarrel = new CannonBarrel(cannonBase);
@@ -705,8 +694,11 @@
 	}
 
 	function nextLevel(Zeus) {
-	  if (Zeus.targets === []) {
-	    Zeus.currentLevel = 'game over';
+	  if (Zeus.targets.length === 0) {
+	    levelOpener(Zeus.context, 'Three');
+	    setTimeout(function () {
+	      Zeus.currentLevel = 'Game Over';
+	    }, 1000);
 	  }
 	}
 
@@ -714,6 +706,30 @@
 
 /***/ },
 /* 14 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	function gameOver(Zeus) {
+	  var canvas = Zeus.canvas;
+	  var context = Zeus.context;
+	  var img = new Image();
+	  img.src = './images/sky.jpg';
+
+	  context.clearRect(0, 0, canvas.width, canvas.height);
+	  context.drawImage(img, 0, 0);
+	  context.font = "60px Open Sans";
+	  context.fillStyle = 'red';
+	  context.fillText("Game Over!", 250, 250);
+	  context.fillStyle = 'red';
+	  var countAndLevel = "Your Score is " + Zeus.score() + "!";
+	  context.fillText(countAndLevel, 180, 330);
+	}
+
+	module.exports = gameOver;
+
+/***/ },
+/* 15 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -777,7 +793,7 @@
 	module.exports = Projectile;
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -789,41 +805,38 @@
 	  this.start = false;
 	  this.element = {
 	    color: '#05EFFF',
-	    // width: 200,
 	    width: 400,
 	    height: 100,
-	    // border-radius: 50%,
-	    // margin: auto,
-	    // height: 100,
 	    top: 250,
-	    // border: 10px solid red,
 	    left: 200
 	  };
 	}
 
 	// Add event listener for `click` events.
 	StartGame.prototype.clicks = function (event) {
-	  var x = event.pageX - this.elemLeft,
-	      y = event.pageY - this.elemTop;
+	  var x = event.pageX - this.elemLeft;
+	  var y = event.pageY - this.elemTop;
 
 	  // Collision detection between clicked offset and element.
-	  // this.elements.forEach(function(element) {
 	  if (y > this.element.top && y < this.element.top + this.element.height && x > this.element.left && x < this.element.left + this.element.width) {
 	    this.start = true;
 	  }
-	  // });
 	};
+
 	var img = new Image();
 	img.src = 'images/start-button.png';
 
 	StartGame.prototype.draw = function () {
 	  if (this.start === false) {
-	    this.context.fillStyle = this.element.color;
+	    this.context.font = "110px Open Sans";
+	    this.context.fillStyle = 'red';
+	    this.context.fillText("Cannonz", 200, 175);
 	    this.context.drawImage(img, this.element.left, this.element.top, this.element.width, this.element.height);
 	  } else {
 	    return this.start;
 	  }
 	};
+
 	module.exports = StartGame;
 
 /***/ }
