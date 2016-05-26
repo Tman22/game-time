@@ -78,7 +78,11 @@
 	});
 
 	canvas.addEventListener('click', function (event) {
-	  StartGame.clicks(event);
+	  if (Zeus.currentLevel === 'Game Over') {
+	    Game.clicks(event, Zeus);
+	  } else {
+	    StartGame.clicks(event);
+	  }
 	}, false);
 
 /***/ },
@@ -258,8 +262,10 @@
 	var levelOne = __webpack_require__(5);
 	var levelTwo = __webpack_require__(12);
 	var levelThree = __webpack_require__(13);
-	var gameOver = __webpack_require__(14);
-	var Projectile = __webpack_require__(15);
+	var Projectile = __webpack_require__(14);
+	var GameOver = __webpack_require__(15);
+
+	var GameOver = new GameOver();
 
 	function Game() {}
 
@@ -272,7 +278,8 @@
 	  } else if (Zeus.currentLevel === 'Three') {
 	    levelThree(Zeus);
 	  } else if (Zeus.currentLevel === 'Game Over') {
-	    gameOver(Zeus);
+	    GameOver.update(Zeus);
+	    GameOver.draw(Zeus.score());
 	  }
 	  Zeus.projectiles.forEach(function (projectile) {
 	    projectile.draw(Zeus.context).movement();
@@ -286,6 +293,10 @@
 	  } else if (keyCode === 40) {
 	    Zeus.cannonBarrel.moveDown();
 	  }
+	};
+
+	Game.prototype.clicks = function (event, Zeus) {
+	  GameOver.clicks(event, Zeus);
 	};
 
 	Game.prototype.fire = function (Zeus, keyCode) {
@@ -710,30 +721,6 @@
 
 	'use strict';
 
-	function gameOver(Zeus) {
-	  var canvas = Zeus.canvas;
-	  var context = Zeus.context;
-	  var img = new Image();
-	  img.src = './images/sky.jpg';
-
-	  context.clearRect(0, 0, canvas.width, canvas.height);
-	  context.drawImage(img, 0, 0);
-	  context.font = "60px Open Sans";
-	  context.fillStyle = 'red';
-	  context.fillText("Game Over!", 250, 250);
-	  context.fillStyle = 'red';
-	  var countAndLevel = "Your Score is " + Zeus.score() + "!";
-	  context.fillText(countAndLevel, 180, 330);
-	}
-
-	module.exports = gameOver;
-
-/***/ },
-/* 15 */
-/***/ function(module, exports) {
-
-	'use strict';
-
 	function Projectile() {
 	  this.x = 0;
 	  this.y = 0;
@@ -793,6 +780,65 @@
 	module.exports = Projectile;
 
 /***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	function GameOver() {
+	  this.canvas = {};
+	  this.context = {};
+	  this.elemLeft = {};
+	  this.elemTop = {};
+	  this.context = {};
+	  this.element = {};
+	}
+
+	GameOver.prototype.update = function (Zeus) {
+	  this.canvas = Zeus.canvas;
+	  this.context = Zeus.context;
+
+	  this.elemLeft = this.canvas.offsetLeft;
+	  this.elemTop = this.canvas.offsetTop;
+	  this.context = this.context;
+	  this.start = false;
+	  this.element = {
+	    color: '#05EFFF',
+	    width: 400,
+	    height: 80,
+	    top: 360,
+	    left: 200
+	  };
+	};
+
+	GameOver.prototype.draw = function (score) {
+	  var img = new Image();
+	  img.src = './images/sky.jpg';
+	  var image = new Image();
+	  image.src = './images/replay.png';
+	  this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	  this.context.drawImage(img, 0, 0);
+	  this.context.drawImage(image, this.element.left, this.element.top, this.element.width, this.element.height);
+	  this.context.font = "60px Open Sans";
+	  this.context.fillStyle = 'red';
+	  this.context.fillText("Game Over!", 250, 250);
+	  this.context.fillStyle = 'red';
+	  var countAndLevel = "Your Score is " + score + "!";
+	  this.context.fillText(countAndLevel, 180, 330);
+	};
+
+	GameOver.prototype.clicks = function (event, Zeus) {
+	  var x = event.pageX - this.elemLeft;
+	  var y = event.pageY - this.elemTop;
+
+	  if (y > this.element.top && y < this.element.top + this.element.height && x > this.element.left && x < this.element.left + this.element.width) {
+	    location.reload();
+	  }
+	};
+
+	module.exports = GameOver;
+
+/***/ },
 /* 16 */
 /***/ function(module, exports) {
 
@@ -812,12 +858,10 @@
 	  };
 	}
 
-	// Add event listener for `click` events.
 	StartGame.prototype.clicks = function (event) {
 	  var x = event.pageX - this.elemLeft;
 	  var y = event.pageY - this.elemTop;
 
-	  // Collision detection between clicked offset and element.
 	  if (y > this.element.top && y < this.element.top + this.element.height && x > this.element.left && x < this.element.left + this.element.width) {
 	    this.start = true;
 	  }
