@@ -18,7 +18,7 @@
 
 The point of the game is to hit all the targets on each level. You can rotate the cannon using the up/down arrows on the keyboard and press spacebar to shoot. The power bar on the left side of the screen goes up and down continuously and you have to time your shots just right to hit the targets.
 
-![Cannonz](http://recordit.co/MTt0kmvPYy)
+![Cannonz](http://g.recordit.co/MTt0kmvPYy.gif)
 
 ### Testing
 
