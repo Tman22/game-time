@@ -17,6 +17,18 @@
   padding:20px;
 }
 
+.score-container {
+  display: inline-block;
+  padding: 15px;
+  width: 300;
+  height: 800px;
+  vertical-align: top;
+}
+
+.submit-field {
+  display: none;
+}
+
 body {
     overflow-x: hidden;
     overflow-y: hidden;
