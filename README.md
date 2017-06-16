@@ -26,7 +26,7 @@ Unit tests were written using Chai. They can be run by cloning down the project,
 
 ### Production
 
-Play it for yourself right [here](tman22.github.io/game-time)!
+Play it for yourself right [here](https://tman22.github.io/game-time/)!
 
 ### The Inspiration
 
